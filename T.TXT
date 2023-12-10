@@ -1,0 +1,32 @@
+ <table>
+      <caption id="active">Users</caption>
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Slot</th>
+          <th scope="col">Duration</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Name">John Ken</td>
+          <td data-label="Email">africa@gmail.com</td>
+          <td data-label="Slot">A</td>
+          <td data-label="Duration">2 Hours</td>
+        </tr>
+        <tr>
+          <td data-label="Name">John Ken</td>
+          <td data-label="Email">africa@gmail.com</td>
+          <td data-label="Slot">B</td>
+          <td data-label="Duration">3 Hours</td>
+        </tr>
+        <tr>
+          <td data-label="Name">John Ken</td>
+          <td data-label="Email">africa@gmail.com</td>
+          <td data-label="Slot">C</td>
+          <td data-label="Duration">4 Hours</td>
+        </tr>
+
+      </tbody>
+    </table>

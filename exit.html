@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+        <link rel="stylesheet" href="login.css">
+
+        <title>Exit</title>
+    </head>
+
+    <body>
+
+        <div class="container">
+            <div class="forms">
+                <div class="form login">
+                    <span class="title">To Exit our park?</span>
+
+                    <form action="#">
+                        <div class="input-field">
+                            <input type="text" id="code" name="code"
+                                placeholder="Input your code" required>
+                            <i class="uil uil-package"></i>
+                        </div>
+
+                        <div class="input-field button">
+                            <input type="button" id="exit-btn" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <script>
+              document.getElementById('exit-btn').addEventListener('click',checkcode)
+
+        function checkcode() {
+            const code = document.getElementById("code").value
+            if (isValid(code)) {
+                var formData = new FormData();
+        formData.append("action", "exit")
+        formData.append("code", code)
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "checkcode.php", true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var res = xhr.responseText;
+                console.log(res)
+
+                if (res == "success") {
+                    alert("Thanks for using our service!")
+                    window.location = "profile.php";
+                }
+                if (res == "locked") {
+                    alert("You are locked, kindly pay penalty fee")
+                    window.location="pay.php?plan=penalty";
+                }
+            }
+        }
+        xhr.send(formData);
+            }
+        }
+        function isValid(code) {
+            if (code == "") {
+                alert("Please enter your code")
+                return false;
+            }
+            if (code.length < 6) {
+                alert("Invalid code")
+                return false;
+            }
+            return true
+        }
+    </script>
+    </body>
+</html>

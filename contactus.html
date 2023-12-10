@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Us</title>
+  <style type="text/css">
+    body {
+      background-color: #d6dbe7;
+    }
+
+    input[type=text],
+    input[type=email],
+    textarea {
+      width: 85%;
+      padding: 12px;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      border-radius: 2px;
+      box-sizing: border-box;
+      margin-top: 6px;
+      margin-bottom: 16px;
+      resize: vertical;
+      font-size: 16px;
+    }
+
+    input[type=text]:focus,
+    input[type=email]:focus,
+    textarea:focus {
+      outline: none;
+      border-bottom: 1px solid #4070f4;
+
+    }
+
+    input[type=button] {
+      background-color: rgb(10, 15, 29);
+      color: white;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+      width: 85%;
+      margin-top: 25px;
+
+    }
+
+    input[type=button]:hover {
+      background-color: #4070f4;
+    }
+
+    .container {
+      border-radius: 5px;
+      background-color: #fff;
+      padding: 20px;
+      max-width: 400px;
+      padding-bottom: 70px;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+
+    }
+
+    .title {
+      display: block;
+      position: relative;
+      font-size: 27px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      margin-top: 30px;
+    }
+
+    @media(max-width: 780px) {
+
+    }
+  </style>
+</head>
+
+<body>
+  <center>
+    <div class="container">
+      <form>
+        <span class="title">Enter Your Details</span>
+        <input type="text" id="sub" name="sub" placeholder="Your Subject...">
+        <textarea id="des" name="des" placeholder="Details here..." style="height:140px"></textarea>
+        <input type="button" value="Submit" id="logger">
+
+      </form>
+    </div>
+  </center>
+  <script>
+    document.getElementById("logger").addEventListener("click", log_message)
+    function log_message() {
+      const subject = document.getElementById("sub").value
+      const message = document.getElementById("des").value
+      if (isValidLog(subject, message)) {
+        var formData = new FormData();
+        formData.append("subject", subject)
+        formData.append("message", message)
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "contact-logger.php", true);
+
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            var res = xhr.responseText;
+            alert("Recieved, thanks")
+            window.location = "profile.php";
+          }
+        }
+        xhr.send(formData)
+      }
+
+    }
+
+    function isValidLog(subject, message) {
+      if (subject == "") {
+        alert("Subject is required")
+        return false;
+      }
+      if (message == "") {
+        alert("You have not entered details")
+        return false;
+      }
+      return true
+    }
+  </script>
+</body>
+
+</html>

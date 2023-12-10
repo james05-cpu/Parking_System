@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+        <link rel="stylesheet" href="login.css">
+
+        <title>Booking</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="forms">
+                <div class="form login">
+                    <span class="title">To Book our park?</span>
+
+                    <form action="#">
+                        
+                        <div class="input-field">
+                            <input type="text" id="h" name="h"
+                                placeholder="Input No. of hours" required>
+                            <i class="uil uil-package"></i>
+                        </div>
+                        <div class="input-field">
+                            <input type="text" id="t" name="t"
+                                placeholder="Entry time e.g  2023-08-12 16:00" required>
+                            <i class="uil uil-calender"></i>
+                        </div>
+                        <div class="input-field button">
+                            <input type="button" value="Submit" id="enter-h">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+document.getElementById("enter-h").addEventListener("click",submit_h);
+function submit_h(){
+    const hours=document.getElementById("h").value;
+    const time=document.getElementById("t").value+":00";
+
+    if (isValidTime(time,hours)) {
+        var formData = new FormData();
+        formData.append("plan", "classic")
+        formData.append("hours", hours)
+        formData.append("entry", time)
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "availability.php", true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var res = xhr.responseText;
+                console.log(res)
+                if (res.trim() =="success") {
+                    window.location = "pay.php?plan=classic";
+                }
+                else if (res.trim() == "fail"){
+                    alert("it's not possible, try fewer hours")
+                }
+            }
+        }
+        xhr.send(formData);
+    }
+}
+function isValidTime(time,hours) {
+    let regex = new RegExp(/^([0-9]{4})-((01|02|03|04|05|06|07|08|09|10|11|12|(?:J(anuary|u(ne|ly))|February|Ma(rch|y)|A(pril|ugust)|(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)|(JANUARY|FEBRUARY|MARCH|APRIL|MAY|JUNE|JULY|AUGUST|SEPTEMBER|OCTOBER|NOVEMBER|DECEMBER)|(September|October|November|December)|(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)|(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)))|(january|february|march|april|may|june|july|august|september|october|november|december))-([0-3][0-9])\s([0-1][0-9]|[2][0-3]):([0-5][0-9]):([0-5][0-9])$/)
+
+    if (hours=="") {
+        alert("Please enter a number of hours")
+        return false;
+    }
+    if (isNaN(hours)) {
+        alert("invalid hours")
+        return false;
+    }
+    if (time =="") {
+        alert("input entrance time please")
+        return false;
+    }
+ 
+    // Return true if the str
+    // matched the ReGex
+    if (regex.test(time) == false) {
+        alert ("please observe date format")
+        return false;
+    }
+    return true
+}
+        </script>
+    </body>
+</html>

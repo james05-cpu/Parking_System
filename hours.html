@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+        <link rel="stylesheet" href="login.css">
+
+        <title>Booking</title>
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="forms">
+                <div class="form login">
+                    <span class="title">To Book our park?</span>
+
+                    <form action="#">
+                        <div class="input-field">
+                            <input type="text" id="h" name="h"
+                                placeholder="Input No. of hours" required>
+                            <i class="uil uil-package"></i>
+                        </div>
+
+                        <div class="input-field button">
+                            <input type="button" value="Submit" id="enter-h">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script>
+document.getElementById("enter-h").addEventListener("click",submit_h);
+function submit_h(){
+    const hours=document.getElementById("h").value;
+    if (isValidTime(hours)) {
+        var formData = new FormData();
+        formData.append("plan", "hourly")
+        formData.append("hours", hours)
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "availability.php", true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                var res = xhr.responseText;
+                console.log(res)
+                if (res.trim() == "success") {
+                    window.location = "pay.php?plan=hourly";
+                }
+                if (res.trim() == "fail") {
+                    alert("it's not possible, try fewer hours")
+                }
+            }
+        }
+        xhr.send(formData);
+    }
+}
+function isValidTime(hours) {
+    if (hours=="") {
+        alert("Please enter a number of hours")
+        return false;
+    }
+    if (isNaN(hours)) {
+        alert("invalid hours")
+        return false;
+    }
+    return true
+}
+        </script>
+    </body>
+</html>
